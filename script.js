@@ -5,3 +5,9 @@ function getDate() {
 }
 
 getDate();
+
+function getCurrentWeekday() {
+    console.log(moment().format('dddd'));
+}
+
+getCurrentWeekday();
