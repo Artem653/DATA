@@ -1,18 +1,17 @@
-const express = require('express');
-const moment = require('moment');
+const express = require("express");
+const fs = require("fs");
+const path = require("path");
 
 const app = express();
 const PORT = 8001;
 
-function getDate() {
-    return moment().format('YYYY/DD/MM HH:mm:ss');
-}
-
-app.get('/timestamp', (req, res) => {
-  const now = new Date();
-  res.json({ timestamp: now });
+app.get("/posts", (req, res) => {
+  const filePath = path.join(__dirname, "posts.json");
+  const data = fs.readFileSync(filePath, "utf8"); 
+  const posts = JSON.parse(data); 
+  res.json(posts); 
 });
 
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:8001`);
+  console.log(`Server is running on http://localhost:8001`);
 });
