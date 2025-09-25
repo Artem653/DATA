@@ -1,16 +1,49 @@
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
+const moment = require("moment");
 
 const app = express();
 const PORT = 8001;
 
+const productsPath = path.join(__dirname, "posts.json");
+const posts = JSON.parse(fs.readFileSync(productsPath, 'UTF-8'))
+
+  function getDate() {
+    return moment().format("YYYY/MM/DD HH:mm:ss");
+  }
+
+  app.get("/timestamp", (req, res) => {
+    res.json({ timestamp: getDate() });
+  });
+
+
 app.get("/posts", (req, res) => {
-  const filePath = path.join(__dirname, "posts.json");
-  const data = fs.readFileSync(filePath, "utf8"); 
-  const posts = JSON.parse(data); 
-  res.json(posts); 
+  res.json(posts);
 });
+
+app.get('/posts/:id', (req, res) => {
+    const id = +req.params.id; 
+    if (isNaN(id)) {
+        res.status(400).json("Id must be an Integer")
+        return;
+    }
+
+    const post = posts.find((p) => { 
+        return p.id === id;
+    });
+
+    if (!post) {
+        res.status(404).json("Post not found")
+        return;
+    }
+
+
+    res.status(200).json(post);
+});
+
+
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:8001`);
