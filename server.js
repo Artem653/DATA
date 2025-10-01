@@ -7,7 +7,7 @@ const app = express();
 const PORT = 8001;
 
 const productsPath = path.join(__dirname, "posts.json");
-const posts = JSON.parse(fs.readFileSync(productsPath, "UTF-8"));
+const posts = JSON.parse(fs.readFileSync(productsPath, "utf-8"));
 
 function getDate() {
   return moment().format("YYYY/MM/DD HH:mm:ss");
@@ -20,29 +20,16 @@ app.get("/timestamp", (req, res) => {
 app.get("/posts", (req, res) => {
   let { skip, take } = req.query;
 
-  if (skip !== undefined) {
-    skip = Number(skip);
-    if (isNaN(skip) || skip < 0) {
-      res.status(400).json({ error: "Error, take must be a non-negative integer" })
-      return
-    }
-  }
-
-  if (take !== undefined) {
-    take = Number(take);
-    if (isNaN(take) || take < 0) {
-      res.status(400).json({ error: "Error, take must be a non-negative integer" })
-      return 
-    }
-  }
+  skip = Number(skip);
+  take = Number(take);
 
   let result = posts;
 
-  if (skip !== undefined) {
+  if (!isNaN(skip) && skip > 0) {
     result = result.slice(skip);
   }
 
-  if (take !== undefined) {
+  if (!isNaN(take) && take > 0) {
     result = result.slice(0, take);
   }
 
@@ -67,5 +54,5 @@ app.get("/posts/:id", (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on http://localhost:8001`);
 });
