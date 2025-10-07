@@ -21,9 +21,17 @@
         "likes": 20
     },
     {
-        "title": "4",
-        "description": "Уга Уга",
-        "image": "https://example.com/image228.jpg",
-        "id": 3
+        "id": 4,
+        "title": "ффф",
+        "description": "Postman",
+        "image": "https://placehold.co/400x200",
+        "likes": 0
+    },
+    {
+        "id": 5,
+        "title": "тест №25 :(",
+        "description": "Postman",
+        "image": "https://placehold.co/500x300",
+        "likes": 0
     }
 ]
